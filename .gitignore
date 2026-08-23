@@ -1,0 +1,19 @@
+# Local secrets and environment files
+.env
+.env.*
+!.env.example
+
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Generated alert captures
+saved_alerts/*
+!saved_alerts/.gitkeep
+
+# Local tooling and OS files
+.vscode/
+.DS_Store
+Thumbs.db
