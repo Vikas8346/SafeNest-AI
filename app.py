@@ -63,6 +63,7 @@ CRITICAL_THRESHOLD = 70
 
 print("Loading YOLO model (first run downloads weights automatically)...")
 model = YOLO("yolov8n.pt")
+model.predict(np.zeros((320, 320, 3), dtype=np.uint8), imgsz=320, device="cpu", verbose=False)
 print("Model loaded.")
 
 
@@ -152,7 +153,14 @@ def detect():
         return jsonify({"error": "could not decode image"}), 400
 
     t0 = time.time()
-    results = model.predict(frame, conf=CONF_THRESHOLD, verbose=False)[0]
+    results = model.predict(
+        frame,
+        conf=CONF_THRESHOLD,
+        imgsz=320,
+        device="cpu",
+        max_det=20,
+        verbose=False,
+    )[0]
     infer_ms = round((time.time() - t0) * 1000, 1)
 
     h, w = frame.shape[:2]
