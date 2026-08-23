@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SafeNest AI — Sensor Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="console">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">◆</span>
+      <span class="brand-name">SAFENEST</span>
+      <span class="brand-sub">SENSOR CONSOLE</span>
+    </div>
+    <div class="topbar-status">
+      <span id="connDot" class="dot dot-off"></span>
+      <span id="connLabel">INITIALIZING</span>
+      <button id="cameraToggle" class="camera-toggle" type="button" aria-pressed="true">Camera on</button>
+    </div>
+  </header>
+
+  <main class="grid">
+
+    <section class="feed-panel">
+      <div class="feed-wrap">
+        <video id="video" autoplay playsinline muted></video>
+        <canvas id="overlay"></canvas>
+        <div class="scan-line" id="scanLine"></div>
+        <div class="feed-label">CAM_01 · LIVE</div>
+        <div class="infer-label" id="inferLabel">-- ms/frame</div>
+      </div>
+
+      <div class="risk-banner" id="riskBanner" data-level="idle">
+        <div class="risk-left">
+          <span class="risk-tag">RISK</span>
+          <span class="risk-level" id="riskLevel">STANDBY</span>
+        </div>
+        <div class="risk-right" id="riskDetail">Waiting for camera…</div>
+      </div>
+    </section>
+
+    <aside class="side-panel">
+
+      <div class="panel-block">
+        <h2>Legend</h2>
+        <ul class="legend">
+          <li><span class="swatch swatch-person"></span> Person</li>
+          <li><span class="swatch swatch-danger"></span> Dangerous object</li>
+          <li><span class="swatch swatch-neutral"></span> Neutral object</li>
+        </ul>
+      </div>
+
+      <div class="panel-block">
+        <h2>Detections <span class="count" id="detCount">0</span></h2>
+        <div class="det-list" id="detList">
+          <div class="det-empty">No objects in frame</div>
+        </div>
+      </div>
+
+      <div class="panel-block">
+        <h2>Event Log</h2>
+        <div class="log-list" id="logList"></div>
+      </div>
+
+      <div class="panel-block family-panel">
+        <h2>Family Alert</h2>
+         <label class="field-label" for="familyPhone">Family phone (saved on server)</label>
+        <input id="familyPhone" class="phone-input" type="tel" inputmode="tel"
+           placeholder="Configured with FAMILY_PHONE_NUMBER" autocomplete="tel">
+        <div class="family-actions">
+          <button id="captureBtn" class="action-btn" type="button" disabled>Save moment</button>
+          <button id="callBtn" class="action-btn call-btn" type="button">Call family</button>
+        </div>
+        <div id="momentStatus" class="moment-status">No alert moment captured</div>
+        <img id="momentPreview" class="moment-preview" alt="Captured alert moment" hidden>
+      </div>
+
+      <div class="panel-block panel-note">
+        <p>Phase 1 build. Risk score is a placeholder formula (danger weight
+        × on-screen distance) — not yet duration-confirmed or ML-trained.
+        Don't treat alerts here as certain.</p>
+      </div>
+
+    </aside>
+
+  </main>
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
